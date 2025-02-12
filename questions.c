@@ -2,9 +2,6 @@
  * Tutorial 4 Jeopardy Project for SOFE 3950U / CSCI 3020U: Operating Systems
  *
  * Copyright (C) 2015, <GROUP MEMBERS>
- * Francis Chukwu (100877764)
- * Osayonamen Abe (100860342)
- * Timi Ogunleye (100879117)
  * All rights reserved.
  *
  */
@@ -13,118 +10,133 @@
 #include <string.h>
 #include "questions.h"
 
+question questions[NUM_QUESTIONS];  
+
 // Initializes the array of questions for the game
 void initialize_game(void)
 {
-    // initialize each question struct and assign it to the questions array
-    //Each 3 rows in the array is of the question format: computer,\nanimal,\nfood
-    char questions_text[NUM_QUESTIONS][MAX_LEN] = {
-        "What is the first piece of software implemented by Microsoft to relax users?",
-        "What mammal is capable of flight?",
-        "What food does not expire?",
+    // Programming questions
+    strcpy(questions[0].category, "programming");
+    strcpy(questions[0].question, "What is the keyword to declare a function in C?");
+    strcpy(questions[0].answer, "what is void");
+    questions[0].value = 100;
+    questions[0].answered = false;
 
-        "What preceeded ethernet as the first public example of a packet-based network service?",
-        "Which animal has 4 noses?",
-        "Where were french fries created?",
+    strcpy(questions[1].category, "programming");
+    strcpy(questions[1].question, "Which language is known for running in a web browser?");
+    strcpy(questions[1].answer, "what is JavaScript");
+    questions[1].value = 200;
+    questions[1].answered = false;
 
-        "What brand was formed from a computer engineer at Atari?",
-        "What animal can swim fast and is a carnivore, but can't stick its tongue out?",
-        "What food is illegal to sell passed 6pm without a doctor's note?",
+    strcpy(questions[2].category, "programming");
+    strcpy(questions[2].question, "What is the name of the process that converts source code into machine code?");
+    strcpy(questions[2].answer, "what is compilation");
+    questions[2].value = 300;
+    questions[2].answered = false;
 
-        "What was the name of the wide-spread virus attacking Windows devices in 2017?",
-        "What kind of mosqutioes bite?",
-        "Where were Doritos invented?"
-    };
+    strcpy(questions[3].category, "programming");
+    strcpy(questions[3].question, "Which programming language is known for its use in data science and machine learning?");
+    strcpy(questions[3].answer, "what is Python");
+    questions[3].value = 400;
+    questions[3].answered = false;
 
-    //Each row in the array is of the question format: computer, animal, food
-    char answers_text[NUM_QUESTIONS][MAX_LEN] = {
-        "Solitaire", "Bat", "Honey",
+    // Algorithms questions
+    strcpy(questions[4].category, "algorithms");
+    strcpy(questions[4].question, "What algorithm is used for sorting by repeatedly swapping adjacent elements?");
+    strcpy(questions[4].answer, "what is bubble sort");
+    questions[4].value = 100;
+    questions[4].answered = false;
 
-        "ALOHAnet", "Slug", "Belgium",
-        
-        "Apple", "Crocodile", "Icecream",
+    strcpy(questions[5].category, "algorithms");
+    strcpy(questions[5].question, "Which algorithm is commonly used to find the shortest path in a graph?");
+    strcpy(questions[5].answer, "what is Dijkstra's algorithm");
+    questions[5].value = 200;
+    questions[5].answered = false;
 
-        "WannaCry", "Females", "Disneyland"
-    };
+    strcpy(questions[6].category, "algorithms");
+    strcpy(questions[6].question, "What is the worst-case time complexity of QuickSort?");
+    strcpy(questions[6].answer, "what is O(n^2)");
+    questions[6].value = 300;
+    questions[6].answered = false;
 
-    //int category_current = 0;
-    //int value_current = 0;
+    strcpy(questions[7].category, "algorithms");
+    strcpy(questions[7].question, "Which algorithm is used in Artificial Intelligence for decision-making in games?");
+    strcpy(questions[7].answer, "what is Minimax");
+    questions[7].value = 400;
+    questions[7].answered = false;
 
-    int values[] = {100, 200, 300, 400}; //Gets looped over every category
+    // Databases questions
+    strcpy(questions[8].category, "databases");
+    strcpy(questions[8].question, "Which database language is used to manage relational databases?");
+    strcpy(questions[8].answer, "what is SQL");
+    questions[8].value = 100;
+    questions[8].answered = false;
 
-    for(int i=0; i<NUM_QUESTIONS; i++) {
-        category_current = i / 4;  //Since every category has 4 possible questions and answers divide by 4
-        value_current = i % 4; //Loops through values
+    strcpy(questions[9].category, "databases");
+    strcpy(questions[9].question, "What type of database does MongoDB use?");
+    strcpy(questions[9].answer, "what is NoSQL");
+    questions[9].value = 200;
+    questions[9].answered = false;
 
-        strcpy(questions[i].category, categories[category_current]);
-        strcpy(questions[i].question, questions_text[i]);
-        strcpy(questions[i].answer, answers_text[i]);
+    strcpy(questions[10].category, "databases");
+    strcpy(questions[10].question, "Which SQL clause is used to filter results based on a condition?");
+    strcpy(questions[10].answer, "what is WHERE");
+    questions[10].value = 300;
+    questions[10].answered = false;
 
-        questions[i].value = values[value_current];
-        questions[i].answered = false;
-    }
-}
+    strcpy(questions[11].category, "databases");
+    strcpy(questions[11].question, "What is the process of ensuring that data in a database is accurate and consistent?");
+    strcpy(questions[11].answer, "what is normalization");
+    questions[11].value = 400;
+    questions[11].answered = false;
 }
 
 // Displays each of the remaining categories and question dollar values that have not been answered
-void display_categories(void)
-{
-    // print categories and dollar values for each unanswered question in questions array
-    printf("Here are the available categories:\n");
-    for(int i=0; i<NUM_CATEGORIES; i++) {
-        printf("Category: %s\n", categories[i]);
-        for(int j=0; j<NUM_QUESTIONS; j++) {
-            if(strcmp(questions[j].category, categories[i]) == 0 && !questions[j].answered) {
-                printf(" .*. $%d\n", questions[j].value);
+void display_categories(void) {
+    printf("\nCategories and Available Questions:\n");
+
+    for (int i = 0; i < NUM_CATEGORIES; i++) {
+        printf("%s: ", categories[i]);
+        for (int j = 0; j < NUM_QUESTIONS; j++) {
+            if (strcmp(questions[j].category, categories[i]) == 0 && !questions[j].answered) {
+                printf("$%d ", questions[j].value);
             }
         }
+        printf("\n");
     }
 }
 
 // Displays the question for the category and dollar value
-void display_question(char *category, int value)
-{
-    for (int i=0; i<NUM_QUESTIONS; i++) {
-        if (strcmp(questions[i].category, category)==0 && !questions[i].answered && questions[i].value==value) {
-            printf(" .*.*. Question: %s\n", questions[i].question);
+void display_question(char *category, int value) {
+    for (int i = 0; i < NUM_QUESTIONS; i++) {
+        if (strcmp(questions[i].category, category) == 0 && questions[i].value == value) {
+            if (!questions[i].answered) {
+                printf("\nQuestion for $%d in %s:\n%s\n", value, category, questions[i].question);
+            } else {
+                printf("This question has already been answered.\n");
+            }
             return;
         }
     }
-
-    printf(" .*.*. Questions not found.\n");
-
+    printf("No question found for this category and value.\n");
 }
 
 // Returns true if the answer is correct for the question for that category and dollar value
-bool valid_answer(char *category, int value, char *answer)
-{
-    // Look into string comparison functions
-    //bool answer_final = false;
-
+bool valid_answer(char *category, int value, char *answer) {
     for (int i = 0; i < NUM_QUESTIONS; i++) {
         if (strcmp(questions[i].category, category) == 0 && questions[i].value == value) {
-            answer_final = strcmp(questions[i].answer, answer) == 0;
-            return answer_final;
+            return (strcasecmp(answer, questions[i].answer) == 0);
         }
     }
-
-    //In any other case program will return false for answer.
     return false;
 }
 
 // Returns true if the question has already been answered
-bool already_answered(char *category, int value)
-{
-    // lookup the question and see if it's already been marked as answered
-    bool answer_final = false;
-
+bool already_answered(char *category, int value) {
     for (int i = 0; i < NUM_QUESTIONS; i++) {
         if (strcmp(questions[i].category, category) == 0 && questions[i].value == value) {
-            answer_final = questions[i].answered;
-            return answer_final;
+            return questions[i].answered;
         }
     }
-
-    //Same as previous function, in any other case program will return false for answer.
     return false;
 }
